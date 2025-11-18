@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 
-namespace WeatherAgent;
+namespace WeatherAgent.API;
 
 public class Function1
 {

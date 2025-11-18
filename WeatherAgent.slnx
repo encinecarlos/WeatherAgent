@@ -1,3 +1,6 @@
 <Solution>
-  <Project Path="WeatherAgent/WeatherAgent.csproj" />
+  <Project Path="src/WeatherAgent.API/WeatherAgent.API.csproj" />
+  <Project Path="src/WeatherAgent.Application/WeatherAgent.Application.csproj" Id="fa134c43-2c40-41c8-a02d-c655176f8631" />
+  <Project Path="src/WeatherAgent.Domain/WeatherAgent.Domain.csproj" Id="247922dc-6c2e-454a-af4a-a0e0f1a90936" />
+  <Project Path="src/WeatherAgent.Infrastructure/WeatherAgent.Infrastructure.csproj" Id="f402b463-eee0-4ff5-8178-b950083e0c5d" />
 </Solution>
