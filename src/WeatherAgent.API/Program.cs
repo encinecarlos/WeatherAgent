@@ -2,10 +2,15 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WeatherAgent.API.Extensions;
 
 var builder = FunctionsApplication.CreateBuilder(args);
 
 builder.ConfigureFunctionsWebApplication();
+
+builder.Services
+    .ConfigureLogging(builder.Configuration)
+    .AddTelemetry(builder.Configuration);
 
 builder.Services
     .AddApplicationInsightsTelemetryWorkerService()
