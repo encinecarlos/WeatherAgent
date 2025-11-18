@@ -1,6 +1,6 @@
 namespace WeatherAgent.Application.Services.WeatherAgent
 {
-    internal class WeatherAgentService
+    internal class WeatherAgentService : IWeatherAgentService
     {
     }
 }
