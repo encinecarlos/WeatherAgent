@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="RestSharp" Version="113.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\WeatherAgent.Domain\WeatherAgent.Domain.csproj" />
   </ItemGroup>
 
