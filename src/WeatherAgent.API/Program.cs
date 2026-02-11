@@ -8,11 +8,10 @@ using WeatherAgent.Domain.Configuration;
 var builder = FunctionsApplication.CreateBuilder(args);
 
 builder.ConfigureFunctionsWebApplication();
+var wconfig = builder.Configuration.GetSection("WeatherConfiguration");
 builder.Services.Configure<WeatherConfiguration>(builder.Configuration.GetSection("WeatherConfiguration"));
 
 builder.Services
-    .ConfigureLogging(builder.Configuration)
-    .AddTelemetry(builder.Configuration)
     .AddInfrastructureServices();
 
 builder.Services

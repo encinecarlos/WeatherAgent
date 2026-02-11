@@ -2,6 +2,7 @@
 {
     public class WeatherConfiguration
     {
-        public string? Baseurl { get; set; }
+        public string? BaseUrl { get; set; }
+        public string? GeocodingUrl { get; set; }
     }
 }

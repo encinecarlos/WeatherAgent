@@ -12,7 +12,7 @@ namespace WeatherAgent.Infrastructure.Geolocation
         public GeolocationService(WeatherConfiguration weatherConfiguration)
         {
             _weatherConfiguration = weatherConfiguration;
-            _restClient = new RestClient(_weatherConfiguration.Baseurl);
+            _restClient = new RestClient(_weatherConfiguration.GeocodingUrl);
         }
 
         public async Task<(double Latitude, double Longitude)?> GetCoordinatesAsync(string location)
