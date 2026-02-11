@@ -1,4 +1,4 @@
-namespace WeatherAgent.Application.Services.Weather
+namespace WeatherAgent.Infrastructure.Weather
 {
     internal interface IWeatherService
     {
