@@ -1,6 +1,7 @@
 namespace WeatherAgent.Infrastructure.Weather
 {
-    internal interface IWeatherService
+    public interface IWeatherService
     {
+        Task<Domain.Entities.Weather> GetCurrentWeatherAsync(double latitude, double longitude);
     }
 }
