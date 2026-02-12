@@ -10,7 +10,7 @@ on:
       - main
 
 env:
-  AZURE_FUNCTIONAPP_NAME: 'weatheragent-api'  # Nome da sua Function App no Azure
+  AZURE_FUNCTIONAPP_NAME: 'weatheragent-api'
   AZURE_FUNCTIONAPP_PACKAGE_PATH: 'src/WeatherAgent.API'
   DOTNET_VERSION: '10.0.x'
 
@@ -37,9 +37,6 @@ jobs:
           cd src/WeatherAgent.Web
           dotnet publish --configuration Release --output ../../output/web
 
-      - name: Copy staticwebapp.config.json
-        run: cp staticwebapp.config.json output/web/wwwroot/
-
       - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
         with:
@@ -47,7 +44,7 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "output/web/wwwroot"
-          api_location: ""  # Sem API no SWA
+          api_location: ""
           output_location: ""
           skip_app_build: true
 
@@ -78,14 +75,3 @@ jobs:
         with:
           app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
           package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/publish'
-
-  close_pull_request:
-    if: github.event_name == 'pull_request' && github.event.action == 'closed'
-    runs-on: ubuntu-latest
-    name: Close Pull Request
-    steps:
-      - name: Close Pull Request
-        uses: Azure/static-web-apps-deploy@v1
-        with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
-          action: "close"
