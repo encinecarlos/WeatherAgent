@@ -15,7 +15,7 @@ namespace WeatherAgent.Infrastructure.ConciergeAgent
         public ConciergeAgentService(AIConfiguration aiConfig)
         {
             _aiConfig = aiConfig;
-            _agent = new AzureOpenAIClient(new Uri(aiConfig.BaseUrl), new AzureCliCredential())
+            _agent = new AzureOpenAIClient(new Uri(aiConfig.BaseUrl), new DefaultAzureCredential())
                 .GetChatClient("gpt-4o-mini")
                 .AsAIAgent(instructions: AgentConstants.AgentPrompt);
         }
