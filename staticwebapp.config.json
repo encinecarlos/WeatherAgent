@@ -1,13 +1,37 @@
 {
   "navigationFallback": {
     "rewrite": "/index.html",
-    "exclude": ["/css/*", "/lib/*", "/_framework/*", "/*.png", "/*.ico"]
+    "exclude": [
+      "/css/*",
+      "/lib/*",
+      "/_framework/*",
+      "/_content/*",
+      "/*.png",
+      "/*.ico",
+      "/*.wasm",
+      "/*.dat",
+      "/*.dll",
+      "/*.json",
+      "/*.pdb"
+    ]
   },
   "mimeTypes": {
     ".dll": "application/octet-stream",
     ".wasm": "application/wasm",
     ".json": "application/json",
     ".dat": "application/octet-stream",
-    ".blat": "application/octet-stream"
-  }
+    ".blat": "application/octet-stream",
+    ".js": "application/javascript"
+  },
+  "globalHeaders": {
+    "cache-control": "public, max-age=31536000, immutable"
+  },
+  "routes": [
+    {
+      "route": "/_framework/*",
+      "headers": {
+        "cache-control": "public, max-age=31536000, immutable"
+      }
+    }
+  ]
 }
