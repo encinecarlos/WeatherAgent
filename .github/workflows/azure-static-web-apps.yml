@@ -10,7 +10,7 @@ on:
       - main
 
 env:
-  AZURE_WEBAPP_NAME: 'weatheragent-web'
+  AZURE_WEBAPP_NAME: 'weatheragent-spa'
   AZURE_FUNCTIONAPP_NAME: 'weatheragent-api'
   AZURE_FUNCTIONAPP_PACKAGE_PATH: 'src/WeatherAgent.API'
   DOTNET_VERSION: '10.0.x'
