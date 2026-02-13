@@ -8,13 +8,13 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 // Load configuration
-var apiBaseUrl = builder.Configuration.GetSection("ApiSettings:BaseUrl").Value 
+var apiBaseUrl = builder.Configuration.GetSection("ApiSettings:BaseUrl").Value
     ?? "http://localhost:7071";
 
 // Configure HttpClient with API base URL
-builder.Services.AddScoped(sp => new HttpClient 
-{ 
-    BaseAddress = new Uri(apiBaseUrl) 
+builder.Services.AddScoped(sp => new HttpClient
+{
+    BaseAddress = new Uri(apiBaseUrl)
 });
 
 // Register services
