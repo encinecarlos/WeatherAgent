@@ -1,0 +1,6 @@
+WeatherAgent.slnx
+{
+	"projects": [
+		"src/WeatherAgent.Tests/WeatherAgent.Tests.csproj"
+	]
+}
