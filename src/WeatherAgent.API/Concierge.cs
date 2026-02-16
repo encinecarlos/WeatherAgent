@@ -3,6 +3,7 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using System.Net;
+using WeatherAgent.Application.DTO;
 using WeatherAgent.Application.WeatherSuggestion;
 
 namespace WeatherAgent.API;
@@ -19,12 +20,11 @@ public class Concierge(
 
         var result = await weatherSugestionCommand.ExecuteAsync(location);
 
+        logger.LogInformation("Concierge response: {response}", result);
+
         var response = req.CreateResponse(HttpStatusCode.OK);
 
-        await response.WriteAsJsonAsync(new
-        {
-            AgentResponse = result
-        });
+        await response.WriteAsJsonAsync(new AgentResponseDto(result));
 
         return response;
     }
