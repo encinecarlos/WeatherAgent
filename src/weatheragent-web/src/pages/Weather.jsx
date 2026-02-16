@@ -57,7 +57,7 @@ function Weather() {
   return (
     <div className="weather-container">
       <div className="weather-header">
-        <h1>??? WeatherTaste</h1>
+        <h1>🌤️ WeatherTaste</h1>
         <p className="subtitle">
           Get personalized clothing and food suggestions based on weather
         </p>
@@ -68,7 +68,7 @@ function Weather() {
           <input
             type="text"
             className="form-control search-input"
-            placeholder="Enter city name (e.g., S�o Paulo, New York, London)"
+            placeholder="Enter city name (e.g., São Paulo, New York, London)"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
             onKeyPress={handleKeyPress}
