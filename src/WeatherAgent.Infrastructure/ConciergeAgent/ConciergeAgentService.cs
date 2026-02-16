@@ -1,6 +1,8 @@
-﻿using Azure.AI.OpenAI;
+﻿using Azure;
+using Azure.AI.OpenAI;
 using Azure.Identity;
 using Microsoft.Agents.AI;
+using Microsoft.Agents.AI.OpenAI;
 using OpenAI.Chat;
 using WeatherAgent.Domain.Configuration;
 using WeatherAgent.Infrastructure.ConciergeAgent.Constants;
@@ -15,7 +17,12 @@ namespace WeatherAgent.Infrastructure.ConciergeAgent
         public ConciergeAgentService(AIConfiguration aiConfig)
         {
             _aiConfig = aiConfig;
-            _agent = new AzureOpenAIClient(new Uri(aiConfig.BaseUrl), new DefaultAzureCredential())
+
+            var client = string.IsNullOrEmpty(aiConfig.ApiKey)
+                ? new AzureOpenAIClient(new Uri(aiConfig.BaseUrl!), new DefaultAzureCredential())
+                : new AzureOpenAIClient(new Uri(aiConfig.BaseUrl!), new AzureKeyCredential(aiConfig.ApiKey));
+
+            _agent = client
                 .GetChatClient("gpt-4o-mini")
                 .AsAIAgent(instructions: AgentConstants.AgentPrompt);
         }

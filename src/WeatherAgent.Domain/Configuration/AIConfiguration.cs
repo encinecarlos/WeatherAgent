@@ -3,5 +3,6 @@
     public class AIConfiguration
     {
         public string? BaseUrl { get; set; }
+        public string? ApiKey { get; set; }
     }
 }
