@@ -5,7 +5,7 @@ function Home() {
   return (
     <div className="home-container">
       <div className="hero-section">
-        <h1>??? WeatherTaste</h1>
+        <h1>🌤️ WeatherTaste</h1>
         <p className="tagline">Your AI-powered lifestyle assistant</p>
         <p className="description">
           Get personalized recommendations for <strong>what to wear</strong> and{' '}
@@ -18,7 +18,7 @@ function Home() {
 
       <div className="features-section">
         <div className="feature-card">
-          <div className="feature-icon">??</div>
+          <div className="feature-icon">👔</div>
           <h3>Clothing Suggestions</h3>
           <p>
             Smart recommendations based on temperature, apparent temperature, and rain
@@ -26,7 +26,7 @@ function Home() {
           </p>
         </div>
         <div className="feature-card">
-          <div className="feature-icon">???</div>
+          <div className="feature-icon">🍽️</div>
           <h3>Food & Drink Ideas</h3>
           <p>
             Comfort food for cold days, light meals for hot weather, and everything in
@@ -34,7 +34,7 @@ function Home() {
           </p>
         </div>
         <div className="feature-card">
-          <div className="feature-icon">??</div>
+          <div className="feature-icon">🤖</div>
           <h3>AI-Powered</h3>
           <p>
             Powered by Azure OpenAI and the Microsoft Agent Framework for intelligent

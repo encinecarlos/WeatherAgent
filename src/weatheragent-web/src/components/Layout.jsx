@@ -14,18 +14,18 @@ function Layout() {
       <nav className="navbar">
         <div className="navbar-container">
           <Link to="/" className="navbar-brand">
-            ??? WeatherTaste
+            🌤️ WeatherTaste
           </Link>
           <button className="navbar-toggler" onClick={toggleMenu}>
-            <span className="navbar-toggler-icon">?</span>
+            <span className="navbar-toggler-icon">☰</span>
           </button>
         </div>
         <div className={`nav-menu ${isMenuOpen ? 'open' : ''}`}>
           <Link to="/" className="nav-link" onClick={() => setIsMenuOpen(false)}>
-            ?? Home
+            🏠 Home
           </Link>
           <Link to="/weather" className="nav-link" onClick={() => setIsMenuOpen(false)}>
-            ??? Weather Suggestions
+            🌡️ Weather Suggestions
           </Link>
         </div>
       </nav>
