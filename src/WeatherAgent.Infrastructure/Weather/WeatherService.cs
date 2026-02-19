@@ -19,46 +19,38 @@ namespace WeatherAgent.Infrastructure.Weather
             _logger = logger;
             _restClient = new RestClient(_weatherConfiguration.BaseUrl);
             
-            _logger.LogInformation("WeatherService initialized with URL: {BaseUrl}", _weatherConfiguration.BaseUrl);
+            _logger.LogDebug("WeatherService initialized with URL: {BaseUrl}", _weatherConfiguration.BaseUrl);
         }
 
         public async Task<Domain.Entities.Weather> GetCurrentWeatherAsync(double latitude, double longitude)
         {
             _logger.LogInformation("Requesting weather data for Latitude={Latitude}, Longitude={Longitude}", latitude, longitude);
-            
-            try
+
+            var request = new RestRequest("/forecast", Method.Get);
+            request
+                .AddQueryParameter("latitude", latitude.ToString(CultureInfo.InvariantCulture))
+                .AddQueryParameter("longitude", longitude.ToString(CultureInfo.InvariantCulture))
+                .AddQueryParameter("current", "temperature_2m,apparent_temperature,precipitation_probability")
+                .AddQueryParameter("timezone", "auto");
+
+            var response = await _restClient.ExecuteAsync<Domain.Entities.Weather>(request);
+
+            if (!response.IsSuccessful)
             {
-                var request = new RestRequest("/forecast", Method.Get);
-                request
-                    .AddQueryParameter("latitude", latitude.ToString(CultureInfo.InvariantCulture))
-                    .AddQueryParameter("longitude", longitude.ToString(CultureInfo.InvariantCulture))
-                    .AddQueryParameter("current", "temperature_2m,apparent_temperature,precipitation_probability")
-                    .AddQueryParameter("timezone", "auto");
-
-                var response = await _restClient.ExecuteAsync<Domain.Entities.Weather>(request);
-                
-                if (!response.IsSuccessful)
-                {
-                    _logger.LogWarning("Weather request failed for Lat={Latitude}, Lon={Longitude}. StatusCode: {StatusCode}",
-                        latitude, longitude, response.StatusCode);
-                    throw new Exception($"Failed to get weather data: {response.ErrorMessage}");
-                }
-                
-                if (response.Data == null)
-                {
-                    _logger.LogWarning("Weather data is null for Lat={Latitude}, Lon={Longitude}", latitude, longitude);
-                    throw new Exception("Weather data is null");
-                }
-
-                _logger.LogInformation("Weather data retrieved successfully for Lat={Latitude}, Lon={Longitude}", latitude, longitude);
-
-                return response.Data;
+                _logger.LogWarning("Weather request failed for Lat={Latitude}, Lon={Longitude}. StatusCode: {StatusCode}",
+                    latitude, longitude, response.StatusCode);
+                throw new Exception($"Failed to get weather data. Status: {response.StatusCode}, Error: {response.ErrorMessage ?? "Unknown error"}");
             }
-            catch (Exception ex)
+
+            if (response.Data == null)
             {
-                _logger.LogError(ex, "Error getting weather data for Lat={Latitude}, Lon={Longitude}", latitude, longitude);
-                throw;
+                _logger.LogWarning("Weather data is null for Lat={Latitude}, Lon={Longitude}", latitude, longitude);
+                throw new Exception("Weather data is null");
             }
+
+            _logger.LogInformation("Weather data retrieved successfully for Lat={Latitude}, Lon={Longitude}", latitude, longitude);
+
+            return response.Data;
         }
     }
 }

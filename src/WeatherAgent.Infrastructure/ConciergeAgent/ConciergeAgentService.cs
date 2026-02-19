@@ -21,7 +21,7 @@ namespace WeatherAgent.Infrastructure.ConciergeAgent
             _aiConfig = aiConfig;
             _logger = logger;
 
-            _logger.LogInformation("Initializing ConciergeAgentService with BaseUrl: {BaseUrl}", aiConfig.BaseUrl);
+            _logger.LogDebug("Initializing ConciergeAgentService with BaseUrl: {BaseUrl}", aiConfig.BaseUrl);
 
             var client = string.IsNullOrEmpty(aiConfig.ApiKey)
                 ? new AzureOpenAIClient(new Uri(aiConfig.BaseUrl!), new DefaultAzureCredential())
@@ -31,26 +31,26 @@ namespace WeatherAgent.Infrastructure.ConciergeAgent
                 .GetChatClient("gpt-4o-mini")
                 .AsAIAgent(instructions: AgentConstants.AgentPrompt);
 
-            _logger.LogInformation("ConciergeAgentService initialized successfully");
+            _logger.LogDebug("ConciergeAgentService initialized successfully");
         }
 
         public async Task<string> GetConciergeResponseAsync(string userInput)
         {
-            _logger.LogInformation("Getting concierge response for input: {UserInput}", userInput);
-            
-            try
-            {
-                var response = await _agent.RunAsync(userInput);
-                
-                _logger.LogInformation("Concierge response received successfully. Length: {Length} characters", response.Text?.Length ?? 0);
-                
-                return response.Text ?? string.Empty;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error getting concierge response for input: {UserInput}", userInput);
-                throw;
-            }
+            var inputLength = userInput?.Length ?? 0;
+            var inputPreview = userInput is { Length: > 100 }
+                ? userInput.Substring(0, 100) + "..."
+                : userInput;
+
+            _logger.LogInformation(
+                "Getting concierge response for input. Length: {UserInputLength} characters. Preview: {UserInputPreview}",
+                inputLength,
+                inputPreview);
+
+            var response = await _agent.RunAsync(userInput);
+
+            _logger.LogInformation("Concierge response received successfully. Length: {Length} characters", response.Text?.Length ?? 0);
+
+            return response.Text ?? string.Empty;
         }
     }
 }
