@@ -39,7 +39,7 @@ namespace WeatherAgent.Infrastructure.ConciergeAgent
             var inputLength = userInput?.Length ?? 0;
             var inputPreview = userInput is { Length: > 100 }
                 ? userInput[..100] + "..."
-                : userInput;
+                : userInput ?? string.Empty;
 
             _logger.LogInformation(
                 "Getting concierge response for input. Length: {UserInputLength} characters. Preview: {UserInputPreview}",
