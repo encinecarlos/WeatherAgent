@@ -12,6 +12,8 @@ var wconfig = builder.Configuration.GetSection("WeatherConfiguration");
 builder.Services.Configure<WeatherConfiguration>(builder.Configuration.GetSection("WeatherConfiguration"));
 builder.Services.Configure<AIConfiguration>(builder.Configuration.GetSection("AIConfiguration"));
 
+builder.Services.ConfigureLogging(builder.Configuration);
+
 builder.Services
     .AddApplicationServices()
     .AddInfrastructureServices();
