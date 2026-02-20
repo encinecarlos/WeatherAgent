@@ -1,14 +1,49 @@
 /* Base styles */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+:root {
+  --bg-primary: #0d0b1a;
+  --bg-secondary: #15122b;
+  --bg-card: #1c1835;
+  --bg-card-hover: #241f42;
+  --bg-input: #1c1835;
+  --border-color: rgba(139, 92, 246, 0.15);
+  --border-focus: rgba(139, 92, 246, 0.5);
+  --text-primary: #f0ecff;
+  --text-secondary: #a89ec8;
+  --text-muted: #7a6fa0;
+  --accent-purple: #8b5cf6;
+  --accent-purple-light: #a78bfa;
+  --accent-purple-dark: #7c3aed;
+  --accent-glow: rgba(139, 92, 246, 0.15);
+  --accent-glow-strong: rgba(139, 92, 246, 0.3);
+  --danger: #f87171;
+  --danger-bg: rgba(248, 113, 113, 0.1);
+  --danger-border: rgba(248, 113, 113, 0.2);
+
+  /* Temperature colors */
+  --temp-freezing: #60a5fa;
+  --temp-cold: #818cf8;
+  --temp-cool: #a78bfa;
+  --temp-mild: #8b5cf6;
+  --temp-warm: #f59e0b;
+  --temp-hot: #f97316;
+  --temp-extreme: #ef4444;
+}
+
 html, body {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   min-height: 100vh;
-  background-color: #f5f5f5;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 #root {
@@ -16,12 +51,14 @@ html, body {
 }
 
 a {
-  color: #0071c1;
+  color: var(--accent-purple-light);
   text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 a:hover {
-  text-decoration: underline;
+  color: var(--accent-purple);
+  text-decoration: none;
 }
 
 /* Button styles */
@@ -29,33 +66,43 @@ a:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.5rem 1rem;
+  padding: 0.625rem 1.25rem;
   border: none;
-  border-radius: 6px;
-  font-size: 1rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
+  font-family: inherit;
+  letter-spacing: 0.01em;
 }
 
 .btn:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
 .btn-primary {
   color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+  background: linear-gradient(135deg, var(--accent-purple-dark), var(--accent-purple));
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.2);
 }
 
 .btn-primary:hover:not(:disabled) {
-  background-color: #155a9c;
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple-light));
+  box-shadow: 0 0 30px rgba(139, 92, 246, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
 }
 
 .btn-lg {
-  padding: 0.8rem 2rem;
-  font-size: 1.1rem;
+  padding: 0.875rem 2.5rem;
+  font-size: 1.05rem;
+  border-radius: 12px;
 }
 
 /* Form controls */
@@ -65,35 +112,43 @@ a:hover {
   padding: 0.75rem 1rem;
   font-size: 1rem;
   line-height: 1.5;
-  color: #333;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  color: var(--text-primary);
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+  font-family: inherit;
+}
+
+.form-control::placeholder {
+  color: var(--text-muted);
 }
 
 .form-control:focus {
   outline: none;
-  border-color: #1b6ec2;
-  box-shadow: 0 0 0 3px rgba(27, 110, 194, 0.2);
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--accent-glow), 0 0 20px rgba(139, 92, 246, 0.1);
+  background-color: var(--bg-card);
 }
 
 .form-control:disabled {
-  background-color: #e9ecef;
+  background-color: var(--bg-secondary);
   cursor: not-allowed;
+  opacity: 0.6;
 }
 
 /* Alert styles */
 .alert {
   padding: 1rem 1.25rem;
-  border-radius: 8px;
+  border-radius: 12px;
   margin-bottom: 1rem;
+  backdrop-filter: blur(10px);
 }
 
 .alert-danger {
-  color: #842029;
-  background-color: #f8d7da;
-  border: 1px solid #f5c2c7;
+  color: var(--danger);
+  background-color: var(--danger-bg);
+  border: 1px solid var(--danger-border);
 }
 
 /* Utility classes */
@@ -106,7 +161,7 @@ a:hover {
   display: inline-block;
   width: 1rem;
   height: 1rem;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.2);
   border-radius: 50%;
   border-top-color: #fff;
   animation: spin 0.8s linear infinite;
@@ -117,4 +172,28 @@ a:hover {
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Glow animation */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(139, 92, 246, 0.25);
+  }
+}
+
+/* Background noise texture */
+.bg-noise::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.03;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  z-index: 0;
 }

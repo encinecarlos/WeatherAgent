@@ -9,12 +9,16 @@
 
 .notfound-container h1 {
   font-size: 6rem;
-  color: #1565c0;
+  background: linear-gradient(135deg, var(--accent-purple-light), var(--accent-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin-bottom: 1rem;
+  font-weight: 800;
 }
 
 .notfound-container p {
   font-size: 1.5rem;
-  color: #666;
+  color: var(--text-secondary);
   margin-bottom: 2rem;
 }
