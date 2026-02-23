@@ -1,4 +1,5 @@
-﻿using Azure.AI.OpenAI;
+﻿using Azure;
+using Azure.AI.OpenAI;
 using Azure.Identity;
 using Microsoft.Agents.AI;
 using Microsoft.Extensions.Logging;
@@ -22,7 +23,11 @@ namespace WeatherAgent.Infrastructure.ConciergeAgent
 
             _logger.LogInformation("Initializing ConciergeAgentService with BaseUrl: {BaseUrl}", aiConfig.BaseUrl);
 
-            _agent = new AzureOpenAIClient(new Uri(aiConfig.BaseUrl!), new DefaultAzureCredential())
+            var client = string.IsNullOrEmpty(aiConfig.ApiKey)
+                ? new AzureOpenAIClient(new Uri(aiConfig.BaseUrl!), new DefaultAzureCredential())
+                : new AzureOpenAIClient(new Uri(aiConfig.BaseUrl!), new AzureKeyCredential(aiConfig.ApiKey));
+
+            _agent = client
                 .GetChatClient("gpt-4o-mini")
                 .AsAIAgent(instructions: AgentConstants.AgentPrompt);
 
