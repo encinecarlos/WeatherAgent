@@ -75,6 +75,6 @@ public class Concierge(
             ErrorMessages.LocationRequired => HttpStatusCode.BadRequest,
             ErrorMessages.LocationInvalid => HttpStatusCode.BadRequest,
             _ => HttpStatusCode.InternalServerError
-        }
+        };
     }
 }
