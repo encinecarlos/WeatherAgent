@@ -1,7 +1,9 @@
-﻿namespace WeatherAgent.Infrastructure.ConciergeAgent
+﻿using WeatherAgent.Domain.Common;
+
+namespace WeatherAgent.Infrastructure.ConciergeAgent
 {
     public interface IConciergeAgentService
     {
-        Task<string> GetConciergeResponseAsync(string userInput);
+        Task<Result<string>> GetConciergeResponseAsync(string userInput);
     }
 }

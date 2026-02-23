@@ -93,7 +93,12 @@ function Weather() {
 
       {errorMessage && (
         <div className="alert alert-danger mt-4" role="alert">
-          <strong>Error:</strong> {errorMessage}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <span style={{ fontSize: '1.5rem' }}>⚠️</span>
+            <div>
+              <strong>Oops!</strong> {errorMessage}
+            </div>
+          </div>
         </div>
       )}
 

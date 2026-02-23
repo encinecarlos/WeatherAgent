@@ -3,6 +3,7 @@
 using System.Globalization;
 using Microsoft.Extensions.Logging;
 using RestSharp;
+using WeatherAgent.Domain.Common;
 using WeatherAgent.Domain.Configuration;
 
 namespace WeatherAgent.Infrastructure.Weather
@@ -22,7 +23,7 @@ namespace WeatherAgent.Infrastructure.Weather
             _logger.LogInformation("WeatherService initialized with URL: {BaseUrl}", _weatherConfiguration.BaseUrl);
         }
 
-        public async Task<Domain.Entities.Weather> GetCurrentWeatherAsync(double latitude, double longitude)
+        public async Task<Result<Domain.Entities.Weather>> GetCurrentWeatherAsync(double latitude, double longitude)
         {
             _logger.LogInformation("Requesting weather data for Latitude={Latitude}, Longitude={Longitude}", latitude, longitude);
             
@@ -41,23 +42,23 @@ namespace WeatherAgent.Infrastructure.Weather
                 {
                     _logger.LogWarning("Weather request failed for Lat={Latitude}, Lon={Longitude}. StatusCode: {StatusCode}",
                         latitude, longitude, response.StatusCode);
-                    throw new Exception($"Failed to get weather data: {response.ErrorMessage}");
+                    return Result.Failure<Domain.Entities.Weather>(ErrorMessages.WeatherServiceError);
                 }
                 
                 if (response.Data == null)
                 {
                     _logger.LogWarning("Weather data is null for Lat={Latitude}, Lon={Longitude}", latitude, longitude);
-                    throw new Exception("Weather data is null");
+                    return Result.Failure<Domain.Entities.Weather>(ErrorMessages.WeatherDataNotFound);
                 }
 
                 _logger.LogInformation("Weather data retrieved successfully for Lat={Latitude}, Lon={Longitude}", latitude, longitude);
 
-                return response.Data;
+                return Result.Success(response.Data);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting weather data for Lat={Latitude}, Lon={Longitude}", latitude, longitude);
-                throw;
+                return Result.Failure<Domain.Entities.Weather>(ErrorMessages.WeatherServiceError);
             }
         }
     }
