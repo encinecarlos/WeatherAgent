@@ -1,7 +1,9 @@
-﻿namespace WeatherAgent.Application.WeatherSuggestion
+﻿using WeatherAgent.Domain.Common;
+
+namespace WeatherAgent.Application.WeatherSuggestion
 {
     public interface IWeatherSuggestionCommand
     {
-        Task<string> ExecuteAsync(string location);
+        Task<Result<string>> ExecuteAsync(string location);
     }
 }

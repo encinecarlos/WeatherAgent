@@ -1,7 +1,9 @@
-﻿namespace WeatherAgent.Infrastructure.Geolocation
+﻿using WeatherAgent.Domain.Common;
+
+namespace WeatherAgent.Infrastructure.Geolocation
 {
     public interface IGeolocationService
     {
-        Task<(double Latitude, double Longitude)?> GetCoordinatesAsync(string location);
+        Task<Result<(double Latitude, double Longitude)>> GetCoordinatesAsync(string location);
     }
 }

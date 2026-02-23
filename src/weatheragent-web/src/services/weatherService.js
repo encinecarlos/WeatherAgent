@@ -7,15 +7,24 @@ export async function getWeatherSuggestion(location) {
     )
 
     if (!response.ok) {
-      const errorContent = await response.text()
       return {
         agentResponse: null,
         isSuccess: false,
-        errorMessage: `Error: ${response.status} - ${errorContent}`
+        errorMessage: `Network error: Unable to connect to the server. Please try again later.`
       }
     }
 
     const result = await response.json()
+    
+    // Novo formato de resposta do back-end usando Result pattern
+    if (result.success === false) {
+      return {
+        agentResponse: null,
+        isSuccess: false,
+        errorMessage: result.error || 'An unexpected error occurred'
+      }
+    }
+
     return {
       agentResponse: result.agentResponse,
       isSuccess: true,
@@ -25,7 +34,7 @@ export async function getWeatherSuggestion(location) {
     return {
       agentResponse: null,
       isSuccess: false,
-      errorMessage: `Connection error: ${error.message}`
+      errorMessage: `Connection error: Unable to reach the server. Please check your internet connection and try again.`
     }
   }
 }
