@@ -3,8 +3,8 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using System.Net;
-using WeatherAgent.Application.DTO;
 using WeatherAgent.Application.WeatherSuggestion;
+using WeatherAgent.Domain.Common;
 
 namespace WeatherAgent.API;
 
@@ -22,9 +22,10 @@ public class Concierge(
         {
             logger.LogWarning("Location parameter is missing or empty");
             var badResponse = req.CreateResponse(HttpStatusCode.BadRequest);
-            await badResponse.WriteAsJsonAsync(new { 
+            await badResponse.WriteAsJsonAsync(new
+            {
                 success = false,
-                error = "Location parameter is required" 
+                error = "Location parameter is required"
             });
             return badResponse;
         }
@@ -36,22 +37,44 @@ public class Concierge(
         if (result.IsFailure)
         {
             logger.LogWarning("Failed to generate weather suggestion for location: {Location}. Error: {Error}", location, result.Error);
-            var errorResponse = req.CreateResponse(HttpStatusCode.OK);
-            await errorResponse.WriteAsJsonAsync(new { 
+
+            var errorResponse = req.CreateResponse(GetStatusCodeFromError(result.Error));
+
+            await errorResponse.WriteAsJsonAsync(new
+            {
                 success = false,
-                error = result.Error 
+                error = result.Error
             });
+
             return errorResponse;
         }
 
         logger.LogInformation("Successfully generated weather suggestion for location: {Location}", location);
 
         var response = req.CreateResponse(HttpStatusCode.OK);
-        await response.WriteAsJsonAsync(new { 
+
+        await response.WriteAsJsonAsync(new
+        {
             success = true,
-            agentResponse = result.Value 
+            agentResponse = result.Value
         });
 
         return response;
+    }
+
+    private static HttpStatusCode GetStatusCodeFromError(string error)
+    {
+        return error switch
+        {
+            ErrorMessages.LocationNotFound => HttpStatusCode.NotFound,
+            ErrorMessages.WeatherDataNotFound => HttpStatusCode.NotFound,
+            ErrorMessages.GeolocationServiceError => HttpStatusCode.ServiceUnavailable,
+            ErrorMessages.WeatherServiceError => HttpStatusCode.ServiceUnavailable,
+            ErrorMessages.AiAgentError => HttpStatusCode.ServiceUnavailable,
+            ErrorMessages.AiAgentResponseEmpty => HttpStatusCode.ServiceUnavailable,
+            ErrorMessages.LocationRequired => HttpStatusCode.BadRequest,
+            ErrorMessages.LocationInvalid => HttpStatusCode.BadRequest,
+            _ => HttpStatusCode.InternalServerError
+        }
     }
 }
